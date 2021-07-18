@@ -4,14 +4,14 @@
   become: yes
 
   tasks:
-    - name: Ensure maven git is present
+    - name: Ensure git package is present
       apt:
         name: git
         state: present
 
-    - name: Ensure default-jdk git is present
+    - name: Ensure default-jdk package is present
       apt:
-        name: default-jdk
+        name: openjdk-11-jre-headless
         state: present
 
     - name: Ensure maven package is present
