@@ -29,7 +29,7 @@
     - name: Setup Git repository
       git:
         repo=https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
-        dest=/root
+        dest=/root/complete
 
     - name: Build app
       shell: mvn package chdir="/root/complete"
@@ -51,12 +51,16 @@
 
     - name: Ensure tomcat package is present
       apt:
-        name: tomcat
+        name: tomcat9
         state: present
 
     - name: Ensure tomcat service is started
       service:
-        name: tomcat
+        name: tomcat9
         state: started
 
-
+    - name: Transfer file from mvn to web
+        synchronize:
+          src: /root/complete/target/hello-1.0.war
+          dest: /path/on/server_b
+        delegate_to: /usr/local/tomcat/webapps
