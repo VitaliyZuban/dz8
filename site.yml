@@ -62,5 +62,5 @@
     - name: Transfer file from mvn to web
       synchronize:
         src: /root/complete/target/hello-1.0.war
-        dest: /path/on/server_b
-      delegate_to: /usr/local/tomcat/webapps
+        dest: /var/lib/tomcat9/webapps
+      delegate_to: 178.154.200.136
