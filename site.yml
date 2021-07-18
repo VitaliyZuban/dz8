@@ -1,9 +1,16 @@
 ---
-- name: install git
+- name: Install Git, JDK, Maven, clone Git repository
   hosts: mvn
   become: yes
 
   tasks:
+    - name: Update and upgrade apt packages
+      become: true
+      apt:
+        upgrade: yes
+        update_cache: yes
+        cache_valid_time: 86400 #One day
+
     - name: Ensure git package is present
       apt:
         name: git
@@ -19,7 +26,7 @@
         name: maven
         state: present
 
-    - name: Setup Git repo
+    - name: Setup Git repository
       git:
         repo=https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
         dest=/root
@@ -29,19 +36,27 @@
 
 
 
-- name: install tomcat
+- name: install Tomcat
   hosts: web
   become: yes
 
   tasks:
-  - name: Ensure tomcat package is present
-    apt:
-      name: tomcat
-      state: present
+    - name: Update and upgrade apt packages
+      become: true
+      apt:
+        upgrade: yes
+        update_cache: yes
+        cache_valid_time: 86400 #One day
 
-  - name: Ensure tomcat service is started
-    service:
-      name: tomcat
-      state: started
+
+    - name: Ensure tomcat package is present
+      apt:
+        name: tomcat
+        state: present
+
+    - name: Ensure tomcat service is started
+      service:
+        name: tomcat
+        state: started
 
 
