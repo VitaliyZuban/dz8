@@ -1,0 +1,47 @@
+---
+- name: install git
+  hosts: mvn
+  become: yes
+
+  tasks:
+    - name: Ensure maven git is present
+      apt:
+        name: git
+        state: present
+
+    - name: Ensure default-jdk git is present
+      apt:
+        name: default-jdk
+        state: present
+
+    - name: Ensure maven package is present
+      apt:
+        name: maven
+        state: present
+
+    - name: Setup Git repo
+      git:
+        repo=https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
+        dest=/root
+
+    - name: Build app
+      shell: mvn package chdir="/root/complete"
+
+
+
+- name: install tomcat
+  hosts: web
+  become: yes
+
+  tasks:
+  - name: Ensure tomcat package is present
+    apt:
+      name: tomcat
+      state: present
+
+  - name: Ensure tomcat service is started
+    service:
+      name: tomcat
+      state: started
+
+
